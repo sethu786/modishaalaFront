@@ -93,4 +93,103 @@
       padding: 6px;
     }
   }
+  /* Background and container */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1542224566-0d2b05aef9cf?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-container {
+  width: 90%;
+  max-width: 400px;
+  padding: 30px 25px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.auth-container h2 {
+  margin-bottom: 25px;
+  font-size: 28px;
+  color: #333;
+}
+
+.auth-container input {
+  width: 100%;
+  padding: 12px 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-container button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: #d9534f;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.success {
+  color: #28a745;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.toggle-link {
+  color: #007bff;
+  cursor: pointer;
+  margin-top: 15px;
+  display: inline-block;
+  font-size: 14px;
+}
+
+.toggle-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .auth-container h2 {
+    font-size: 22px;
+  }
+
+  .auth-container input,
+  .auth-container button {
+    font-size: 14px;
+  }
+
+  .toggle-link {
+    font-size: 12px;
+  }
+}
+
   
