@@ -14,6 +14,8 @@ class Home extends Component {
     selectedCategory: 'All',
     error: '',
     sortBy: 'lowToHigh',
+    currentPage: 1, // Track the current page
+    productsPerPage: 6, // Display 6 products per page
   };
 
   async componentDidMount() {
@@ -45,9 +47,14 @@ class Home extends Component {
     this.setState({ selectedCategory: e.target.value });
   };
 
+  handlePageChange = (pageNumber) => {
+    this.setState({ currentPage: pageNumber });
+  };
+
   render() {
-    const { products, error, sortBy, categories, selectedCategory } = this.state;
+    const { products, error, sortBy, categories, selectedCategory, currentPage, productsPerPage } = this.state;
     const { searchTerm } = this.context;
+    
     const filteredProducts = products
       .filter((product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -55,16 +62,24 @@ class Home extends Component {
       .filter((product) =>
         selectedCategory === 'All' || product.category === selectedCategory
       );
-    
+
     const sortedProducts = filteredProducts.sort((a, b) =>
       sortBy === 'lowToHigh' ? a.price - b.price : b.price - a.price
     );
+
+    // Calculate the index for slicing the products array
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    // Calculate the total number of pages
+    const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
 
     return (
       <div className="home-container">
         <h1>Featured Products</h1>
         <CategoryCarousel />
-        <ImageCarousel/>
+        <ImageCarousel />
         {error && <p className="error">{error}</p>}
 
         <div className="filter-section">
@@ -83,7 +98,7 @@ class Home extends Component {
         </div>
 
         <div className="product-list">
-          {sortedProducts.map((product) => (
+          {currentProducts.map((product) => (
             <div key={product.id} className="product-card">
               <img src={product.url} alt={product.name} className="product-image" />
               <h3>{product.name}</h3>
@@ -106,6 +121,31 @@ class Home extends Component {
               </Link>
             </div>
           ))}
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="pagination">
+          <button
+            onClick={() => this.handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => this.handlePageChange(index + 1)}
+              className={currentPage === index + 1 ? 'active' : ''}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => this.handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
         </div>
       </div>
     );
